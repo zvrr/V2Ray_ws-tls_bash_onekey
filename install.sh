@@ -448,8 +448,8 @@ domain_check() {
         wg-quick down wgcf >/dev/null 2>&1
         echo -e "${OK} ${GreenBG} 已关闭 wgcf-warp ${Font}"
     fi
-    local_ipv4=$(curl -s4m8 https://ip.gs)
-    local_ipv6=$(curl -s6m8 https://ip.gs)
+    local_ipv4=$(curl -s4m8 http://ip.sb)
+    local_ipv6=$(curl -s6m8 http://ip.sb)
     if [[ -z ${local_ipv4} && -n ${local_ipv6} ]]; then
         echo -e nameserver 2a01:4f8:c2c:123f::1 > /etc/resolv.conf
         echo -e "${OK} ${GreenBG} 识别为 IPv6 Only 的 VPS，自动添加 DNS64 服务器 ${Font}"
@@ -767,7 +767,7 @@ ssl_judge_and_install() {
         read -r ssl_delete
         case $ssl_delete in
         [yY][eE][sS] | [yY])
-            rm -rf /data/*
+            rm -rf /data/v2ray.crt /data/v2ray.key
             echo -e "${OK} ${GreenBG} 已删除 ${Font}"
             ;;
         *) ;;
@@ -886,7 +886,7 @@ uninstall_all() {
     [yY][eE][sS] | [yY])
       /root/.acme.sh/acme.sh --uninstall
       rm -rf /root/.acme.sh
-      rm -rf /data/*
+      rm -rf /data/v2ray.crt /data/v2ray.key
       ;;
     *) ;;
     esac
